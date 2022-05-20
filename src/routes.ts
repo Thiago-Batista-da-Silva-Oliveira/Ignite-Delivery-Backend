@@ -5,10 +5,13 @@ import { AuthenticateClientController } from './modules/account/authenticateClie
 
 import { AuthenticateDeliverymanController } from './modules/account/authenticateDeliveryman/AuthenticateDeliverymanController'
 import { CreateClientController } from './modules/clients/useCases/createClient/CreateClientController'
+import { FindAllDeliveriesController } from './modules/clients/useCases/deliveries/FindAllDeliveriesController'
 import { CreateDeliveryController } from './modules/deliveries/useCases/createDelivery/CreateDeliveryController'
 import { FindAllAvailableController } from './modules/deliveries/useCases/findAllAvailable/FindAllAvailableController'
 import { UpdateDeliverymanController } from './modules/deliveries/useCases/updateDeliveryman/UpdateDeliverymanController'
+import { UpdateEndDateController } from './modules/deliveries/useCases/updateEndDate/UpdateEndDateController'
 import { CreateDeliverymanController } from './modules/deliveryman/useCases/createDeliveryman/CreateDeliverymanController'
+import { FindAllDeliveriesDeliverymanController } from './modules/deliveryman/useCases/findAllDeliveries/FindAllDeliveriesDeliverymanController'
 
 const routes = Router()
 
@@ -19,6 +22,9 @@ const authenticateDeliverymanController = new AuthenticateDeliverymanController(
 const deliveryController = new CreateDeliveryController()
 const findAllAvailableController = new FindAllAvailableController()
 const updateDeliverymanController = new UpdateDeliverymanController()
+const findAllDeliveriesController = new FindAllDeliveriesController()
+const findAllDeliveriesDeliverymanController = new FindAllDeliveriesDeliverymanController()
+const updateEndDateController = new UpdateEndDateController()
 
 
 routes.post("/client/authenticate",authenticateClientController.handle)
@@ -30,5 +36,10 @@ routes.put("/delivery/updateDeliveryman/:id",enureAuthenticateDeliveryman,update
 routes.post("/delivery",enureAuthenticateClient,deliveryController.handle)
 routes.get("/delivery/available",enureAuthenticateDeliveryman,findAllAvailableController.handle)
 
+routes.get("/client/deliveries",enureAuthenticateClient,findAllDeliveriesController.handle)
+
+routes.get("/deliveryman/deliveries",enureAuthenticateDeliveryman,findAllDeliveriesDeliverymanController.handle)
+
+routes.put("/delivery/updateEndDate/:id", enureAuthenticateDeliveryman, updateEndDateController.handle)
 
 export {routes}
